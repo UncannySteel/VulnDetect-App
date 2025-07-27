@@ -4,15 +4,15 @@ from typing import Optional, Dict, Any
 
 class RemoteComm:
     """
-    Handles secure HTTPS POST communication with a user-specified remote endpoint.
+    Handles HTTP/HTTPS POST communication with a user-specified remote endpoint.
     """
     def __init__(self, url: Optional[str] = None):
         self.url = url
 
     def set_url(self, url: str):
-        """Set the remote HTTPS endpoint URL. Only allows https:// URLs."""
-        if not url.lower().startswith('https://'):
-            raise ValueError('Only HTTPS URLs are allowed.')
+        """Set the remote endpoint URL. Allows both http:// and https:// URLs."""
+        if not (url.lower().startswith('http://') or url.lower().startswith('https://')):
+            raise ValueError('Only HTTP or HTTPS URLs are allowed.')
         self.url = url
 
     def send_json(self, data: Dict[str, Any]) -> Dict[str, Any]:

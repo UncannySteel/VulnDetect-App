@@ -136,9 +136,10 @@ class MainApp(tk.Tk):
         from datetime import datetime
         config = self.service.get_config()
         url = (getattr(config, 'remote_url', '') or '').strip()
-        if not url or not url.lower().startswith('https://'):
-            self._set_status("No valid HTTPS endpoint set. Please set it in Configuration tab.")
-            messagebox.showerror("No Endpoint", "Please set a valid HTTPS Website URL in the Configuration tab.")
+        # Allow both HTTP and HTTPS URLs
+        if not url or not (url.lower().startswith('http://') or url.lower().startswith('https://')):
+            self._set_status("No valid HTTP or HTTPS endpoint set. Please set it in Configuration tab.")
+            messagebox.showerror("No Endpoint", "Please set a valid HTTP or HTTPS Website URL in the Configuration tab.")
             return
         remote_comm = RemoteComm(url)
         # --- Build system profile in required format ---

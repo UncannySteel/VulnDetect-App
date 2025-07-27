@@ -44,8 +44,9 @@ class ConfigTab(ttk.Frame):
 
     def _on_save(self):
         url = self.url_var.get().strip()
-        if url and not url.lower().startswith('https://'):
-            messagebox.showerror("Invalid URL", "Please enter a valid HTTPS Website URL.")
+        # Allow both HTTP and HTTPS URLs
+        if url and not (url.lower().startswith('http://') or url.lower().startswith('https://')):
+            messagebox.showerror("Invalid URL", "Please enter a valid HTTP or HTTPS Website URL.")
             return
         self.service.update_config(remote_url=url)
         messagebox.showinfo("Configuration", "Settings saved.") 
